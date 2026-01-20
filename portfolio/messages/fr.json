@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "contact": "Contact"
+  },
+  "hero": {
+    "contactMe": "Me contacter",
+    "viewProjects": "Voir mes projets"
+  },
+  "about": {
+    "title": "À propos",
+    "whoAmI": "Qui suis-je ?",
+    "location": "Localisation",
+    "email": "Email",
+    "experience": "Expérience"
+  },
+  "skills": {
+    "title": "Compétences"
+  },
+  "projects": {
+    "title": "Projets",
+    "viewProject": "Voir le projet"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Nom",
+    "email": "Email",
+    "message": "Message",
+    "send": "Envoyer le message",
+    "orContactDirectly": "Ou contactez-moi directement :",
+    "messageSent": "Message envoyé ! (à implémenter)"
+  },
+  "footer": {
+    "allRightsReserved": "Tous droits réservés."
+  },
+  "profile": {
+    "name": "Votre Nom",
+    "title": "Développeur Full Stack",
+    "bio": "Passionné par le développement web et les nouvelles technologies. Je crée des expériences digitales modernes et performantes.",
+    "location": "Paris, France",
+    "email": "contact@example.com"
+  },
+  "experiences": {
+    "exp1": {
+      "title": "Développeur Full Stack",
+      "company": "Entreprise A",
+      "period": "2022 - Présent",
+      "description": "Développement d'applications web modernes avec React et Node.js."
+    },
+    "exp2": {
+      "title": "Développeur Front-end",
+      "company": "Entreprise B",
+      "period": "2020 - 2022",
+      "description": "Création d'interfaces utilisateur responsive et accessibles."
+    }
+  },
+  "projectsData": {
+    "project1": {
+      "title": "Projet 1",
+      "description": "Une application web innovante utilisant les dernières technologies."
+    },
+    "project2": {
+      "title": "Projet 2",
+      "description": "Une plateforme e-commerce performante et moderne."
+    },
+    "project3": {
+      "title": "Projet 3",
+      "description": "Un dashboard analytique avec visualisation de données."
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "contactMe": "Contact me",
+    "viewProjects": "View my projects"
+  },
+  "about": {
+    "title": "About",
+    "whoAmI": "Who am I?",
+    "location": "Location",
+    "email": "Email",
+    "experience": "Experience"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "projects": {
+    "title": "Projects",
+    "viewProject": "View project"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send message",
+    "orContactDirectly": "Or contact me directly:",
+    "messageSent": "Message sent! (to implement)"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved."
+  },
+  "profile": {
+    "name": "Your Name",
+    "title": "Full Stack Developer",
+    "bio": "Passionate about web development and new technologies. I create modern and high-performance digital experiences.",
+    "location": "Paris, France",
+    "email": "contact@example.com"
+  },
+  "experiences": {
+    "exp1": {
+      "title": "Full Stack Developer",
+      "company": "Company A",
+      "period": "2022 - Present",
+      "description": "Development of modern web applications with React and Node.js."
+    },
+    "exp2": {
+      "title": "Front-end Developer",
+      "company": "Company B",
+      "period": "2020 - 2022",
+      "description": "Creation of responsive and accessible user interfaces."
+    }
+  },
+  "projectsData": {
+    "project1": {
+      "title": "Project 1",
+      "description": "An innovative web application using the latest technologies."
+    },
+    "project2": {
+      "title": "Project 2",
+      "description": "A high-performance and modern e-commerce platform."
+    },
+    "project3": {
+      "title": "Project 3",
+      "description": "An analytics dashboard with data visualization."
+    }
+  }
+}
