@@ -1,7 +1,11 @@
 export { Header } from "./Header";
-export { Hero } from "./Hero";
-export { About } from "./About";
-export { Skills } from "./Skills";
-export { Projects } from "./Projects";
-export { Contact } from "./Contact";
-export { Footer } from "./Footer";
+export { DropdownContainer } from "./DropdownContainer";
+export { CustomButton } from "./CustomButton";
+export { CustomBadge } from "./CustomBadge";
+export { ActionPill } from "./ActionPill";
+export { MultitaskBar } from "./MultitaskBar";
+export { IconButton } from "./IconButton";
+export { SpinnerLoader } from "./SpinnerLoader";
+export { CustomTooltip } from "./CustomTooltip";
+export { HoverList } from "./HoverList";
+export { ThemeProvider } from "./ThemeProvider";
