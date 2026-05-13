@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonHTMLAttributes, useState } from "react";
+import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 
 type ActionPillProps = {
   icon: string;
@@ -8,6 +8,8 @@ type ActionPillProps = {
   labelWidth: number;
   isCustomIcon?: boolean;
   noIconFilter?: boolean;
+  forceShowLabel?: boolean;
+  iconNode?: ReactNode;
   onClick?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
 };
 
@@ -20,9 +22,13 @@ export function ActionPill({
   labelWidth,
   isCustomIcon = true,
   noIconFilter = false,
+  forceShowLabel = false,
+  iconNode,
   onClick,
 }: ActionPillProps) {
   const [hover, setHover] = useState(false);
+
+  const showLabel = forceShowLabel || hover;
 
   return (
     <button
@@ -35,24 +41,28 @@ export function ActionPill({
       style={{ transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" }}
       className={cn(
         "relative inline-flex items-center cursor-pointer py-1 px-1 rounded-full",
-        hover ? "bg-neutrallight-200 dark:bg-buttondark-900" : "bg-transparent",
+        showLabel || hover
+          ? "bg-neutrallight-200 dark:bg-buttondark-900"
+          : "bg-transparent",
         "transition-colors duration-200",
       )}
     >
-      <span className="flex items-center justify-center w-5 h-5 shrink-0">
-        {isCustomIcon && (
+      <span className="flex items-center justify-center w-5 h-5 shrink-0 text-neutrallight-900 dark:text-neutraldark-900">
+        {iconNode ? (
+          iconNode
+        ) : isCustomIcon ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={`/CorpIcon/${icon}.svg`}
             alt={label}
             className={cn("w-4 h-4", !noIconFilter && "custom-icon")}
           />
-        )}
+        ) : null}
       </span>
       <span
         className="overflow-hidden flex items-center justify-center"
         style={{
-          width: hover ? labelWidth : 0,
+          width: showLabel ? labelWidth : 0,
           transition: "width 350ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
@@ -62,10 +72,10 @@ export function ActionPill({
             "text-neutrallight-900 dark:text-neutraldark-900",
           )}
           style={{
-            opacity: hover ? 1 : 0,
-            transform: hover ? "scale(1)" : "scale(0.6)",
-            filter: hover ? "blur(0px)" : "blur(4px)",
-            transition: hover
+            opacity: showLabel ? 1 : 0,
+            transform: showLabel ? "scale(1)" : "scale(0.6)",
+            filter: showLabel ? "blur(0px)" : "blur(4px)",
+            transition: showLabel
               ? "opacity 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms, transform 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms, filter 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms"
               : "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1), filter 350ms cubic-bezier(0.4, 0, 0.2, 1)",
           }}
