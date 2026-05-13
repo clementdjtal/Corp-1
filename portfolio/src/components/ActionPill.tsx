@@ -5,6 +5,7 @@ import { ButtonHTMLAttributes, useState } from "react";
 type ActionPillProps = {
   icon: string;
   label: string;
+  labelWidth: number;
   isCustomIcon?: boolean;
   noIconFilter?: boolean;
   onClick?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
@@ -16,6 +17,7 @@ const cn = (...classes: (string | false | undefined | null)[]) =>
 export function ActionPill({
   icon,
   label,
+  labelWidth,
   isCustomIcon = true,
   noIconFilter = false,
   onClick,
@@ -30,12 +32,11 @@ export function ActionPill({
       onMouseLeave={() => setHover(false)}
       onFocus={() => setHover(true)}
       onBlur={() => setHover(false)}
+      style={{ transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" }}
       className={cn(
-        "relative inline-flex items-center cursor-pointer h-10 rounded-full",
-        "transition-[background-color,padding] duration-200 ease-out",
-        hover
-          ? "bg-neutrallight-200 dark:bg-buttondark-900 px-4"
-          : "bg-transparent px-2.5",
+        "relative inline-flex items-center cursor-pointer py-1 px-1 rounded-full",
+        hover ? "bg-neutrallight-200 dark:bg-buttondark-900" : "bg-transparent",
+        "transition-colors duration-200",
       )}
     >
       <span className="flex items-center justify-center w-5 h-5 shrink-0">
@@ -44,27 +45,29 @@ export function ActionPill({
           <img
             src={`/CorpIcon/${icon}.svg`}
             alt={label}
-            className={cn("w-5 h-5", !noIconFilter && "custom-icon")}
+            className={cn("w-4 h-4", !noIconFilter && "custom-icon")}
           />
         )}
       </span>
       <span
-        className="overflow-hidden transition-[max-width,margin-left] duration-200 ease-out"
+        className="overflow-hidden flex items-center justify-center"
         style={{
-          maxWidth: hover ? 250 : 0,
-          marginLeft: hover ? 8 : 0,
+          width: hover ? labelWidth : 0,
+          transition: "width 350ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         <span
           className={cn(
             "block whitespace-nowrap text-[13px] font-[500] tracking-[-0.15px]",
             "text-neutrallight-900 dark:text-neutraldark-900",
-            "transition-all duration-200 ease-out",
           )}
           style={{
             opacity: hover ? 1 : 0,
-            transform: hover ? "scale(1)" : "scale(0.85)",
+            transform: hover ? "scale(1)" : "scale(0.6)",
             filter: hover ? "blur(0px)" : "blur(4px)",
+            transition: hover
+              ? "opacity 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms, transform 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms, filter 350ms cubic-bezier(0.4, 0, 0.2, 1) 20ms"
+              : "opacity 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1), filter 350ms cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           {label}
