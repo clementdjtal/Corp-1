@@ -48,46 +48,100 @@ export function MultitaskBar() {
     <div className="fixed bottom-[128px] left-1/2 -translate-x-1/2 z-40">
       <div
         className="
-          inline-flex items-center p-1 rounded-full
+          inline-flex items-center justify-center p-1 rounded-full relative
           bg-neutrallight-100/90 dark:bg-inputdark-900
           border-[0.5px] border-neutrallight-300 dark:border-borderdark-900
           backdrop-blur-md
           shadow-[0_8px_24px_-6px_rgba(0,0,0,0.15)]
           dark:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.6)]
+          overflow-hidden
         "
-        style={{ transition: `all 350ms ${easing}`, gap: GAP }}
+        style={{
+          height: 36,
+          gap: isContact ? 0 : GAP,
+        }}
       >
-        {/* Pill CV / Back */}
-        <ActionPill
-          icon="cv"
-          label="Lire CV"
-          labelWidth={isContact ? 0 : 50}
-          iconNode={isContact ? <ArrowLeftIcon /> : undefined}
-          onClick={() => {
-            if (isContact) setMode("idle");
+        {/* IDLE layer: 2 ActionPills */}
+        <div
+          className="flex items-center"
+          style={{
+            gap: GAP,
+            opacity: isContact ? 0 : 1,
+            transform: isContact ? "scale(0.85)" : "scale(1)",
+            filter: isContact ? "blur(4px)" : "blur(0px)",
+            transition: isContact
+              ? `opacity 200ms ${easing}, transform 280ms ${easing}, filter 220ms ${easing}`
+              : `opacity 280ms ${easing} 100ms, transform 280ms ${easing} 100ms, filter 280ms ${easing} 100ms`,
+            pointerEvents: isContact ? "none" : "auto",
+            position: isContact ? "absolute" : "static",
           }}
-        />
+        >
+          <ActionPill
+            icon="cv"
+            label="Lire CV"
+            labelWidth={50}
+            onClick={() => {}}
+          />
+          <ActionPill
+            icon="contact"
+            label="Contact"
+            labelWidth={54}
+            onClick={() => setMode("contact")}
+          />
+        </div>
 
-        {/* Pill Contact morphing (contains copy button inside) */}
-        <ContactMorphPill
-          isContact={isContact}
-          copied={copied}
-          onActivate={() => setMode("contact")}
-          onCopy={handleCopy}
-        />
-
-        {/* Send button — outside the pill, on the right */}
-        <ActionIconButton
-          show={isContact}
-          delay={250}
-          ariaLabel="Envoyer un mail"
-          icon="send"
-          variant="primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            window.location.href = `mailto:${EMAIL}`;
+        {/* CONTACT layer: back button + email pill + send button */}
+        <div
+          className="flex items-center"
+          style={{
+            gap: GAP,
+            opacity: isContact ? 1 : 0,
+            transform: isContact ? "scale(1)" : "scale(0.85)",
+            filter: isContact ? "blur(0px)" : "blur(4px)",
+            transition: isContact
+              ? `opacity 280ms ${easing} 100ms, transform 280ms ${easing} 100ms, filter 280ms ${easing} 100ms`
+              : `opacity 200ms ${easing}, transform 280ms ${easing}, filter 220ms ${easing}`,
+            pointerEvents: isContact ? "auto" : "none",
+            position: isContact ? "static" : "absolute",
           }}
-        />
+        >
+          {/* Back button */}
+          <button
+            type="button"
+            onClick={() => setMode("idle")}
+            aria-label="Retour"
+            className="
+              inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0
+              cursor-pointer text-neutrallight-900 dark:text-neutraldark-900
+              hover:bg-neutrallight-200 dark:hover:bg-buttondark-900
+              transition-colors duration-200
+            "
+            style={{ transitionTimingFunction: easing }}
+          >
+            <ArrowLeftIcon />
+          </button>
+
+          {/* Pill Contact morphing */}
+          <ContactMorphPill
+            isContact={isContact}
+            copied={copied}
+            onActivate={() => setMode("contact")}
+            onCopy={handleCopy}
+          />
+
+          {/* Send button */}
+          <ActionIconButton
+            show={isContact}
+            delay={100}
+            ariaLabel="Envoyer un mail"
+            icon="send"
+            variant="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.location.href = `mailto:${EMAIL}`;
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -103,7 +157,7 @@ const CheckSmall = () => (
     strokeWidth="2.6"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-white"
+    className="text-neutrallight-900 dark:text-neutraldark-900"
   >
     <polyline points="20 6 9 17 4 12" />
   </svg>
@@ -139,7 +193,7 @@ function ContactMorphPill({
   };
 
   const bgClass = isContact
-    ? "bg-neutrallight-900 dark:bg-containerdark-900 border-[0.5px] border-neutrallight-300 dark:border-borderdark-900"
+    ? "bg-neutrallight-100 dark:bg-containerdark-900 border-[0.5px] border-neutrallight-300 dark:border-borderdark-900"
     : showLabel
       ? "bg-neutrallight-200 dark:bg-buttondark-900"
       : "bg-transparent";
@@ -214,7 +268,7 @@ function ContactMorphPill({
 
         {/* Email text — slides down on copy, comes back from top */}
         <span
-          className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-[13px] font-[500] tracking-[-0.15px] text-white"
+          className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-[13px] font-[500] tracking-[-0.15px] text-neutrallight-900 dark:text-white"
           style={{
             opacity: isContact && !copied ? contentOpacity : 0,
             transform: !isContact
@@ -235,7 +289,7 @@ function ContactMorphPill({
 
         {/* "Email copié" — comes from top, leaves to top */}
         <span
-          className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-[13px] font-[500] tracking-[-0.15px] text-white pointer-events-none"
+          className="absolute inset-0 flex items-center justify-center whitespace-nowrap text-[13px] font-[500] tracking-[-0.15px] text-neutrallight-900 dark:text-white pointer-events-none"
           style={{
             opacity: copied ? contentOpacity : 0,
             transform: copied
@@ -289,7 +343,7 @@ function ContactMorphPill({
           <img
             src="/CorpIcon/copy.svg"
             alt="Copier"
-            className="w-3.5 h-3.5 svg-white-filter"
+            className="w-3.5 h-3.5 custom-icon"
           />
         </button>
 
