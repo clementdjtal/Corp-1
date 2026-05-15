@@ -60,11 +60,11 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50  ">
       <nav className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between h-[128px]">
-          <div
-            className="py-1 pl-1 pr-2 rounded-full dark:bg-inputdark-900 bg-neutrallight-100 flex items-center gap-1 border-[0.5px] border-neutrallight-300 dark:border-borderdark-800 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)]
-          dark:shadow-[0_8px_18px_-2px_rgba(0,0,0,1)]"
-          >
+        <div
+          className="flex items-center justify-between  py-1 pl-1 pr-2 rounded-full dark:bg-inputdark-900 bg-neutrallight-100 border-[0.5px] border-neutrallight-300 dark:border-borderdark-800 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)]
+          dark:shadow-[0_8px_18px_-2px_rgba(0,0,0,1)] translate-y-[84px]"
+        >
+          <div className="flex items-center gap-1 ">
             <img src={`/CorpIcon/fav.png`} className=" w-7 h-7 mr-2" />
             <CustomBadge
               text="Working"
@@ -86,7 +86,7 @@ export function Header() {
             <div className="relative inline-flex">
               <IconButton
                 icon=""
-                buttonType="bordered"
+                buttonType="light"
                 colorScheme="neutral"
                 size="sm"
                 onClick={() => setIsOpen((v) => !v)}
@@ -112,7 +112,7 @@ export function Header() {
               isVisible={isOpen}
               position="bottom-center"
               width="132px"
-              offsetY={6}
+              offsetY={10}
             >
               <div className=" flex flex-col">
                 <HoverList className="flex flex-col p-1">
