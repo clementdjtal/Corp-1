@@ -4,6 +4,7 @@ export { CustomButton } from "./CustomButton";
 export { CustomBadge } from "./CustomBadge";
 export { ActionPill } from "./ActionPill";
 export { MultitaskBar } from "./MultitaskBar";
+export { ProgressiveBlur } from "./ProgressiveBlur";
 export { IconButton } from "./IconButton";
 export { SpinnerLoader } from "./SpinnerLoader";
 export { CustomTooltip } from "./CustomTooltip";

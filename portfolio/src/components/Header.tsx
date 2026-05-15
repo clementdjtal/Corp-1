@@ -61,7 +61,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50  ">
       <nav className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className="flex items-center justify-between  py-1 pl-1 pr-2 rounded-full dark:bg-inputdark-900 bg-neutrallight-100 border-[0.5px] border-neutrallight-300 dark:border-borderdark-800 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)]
+          className="flex items-center justify-between  py-1 pl-1 pr-2 rounded-full dark:bg-containerdark-900 bg-neutrallight-100 border-[0.5px] border-neutrallight-300 dark:border-borderdark-900 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)]
           dark:shadow-[0_8px_18px_-2px_rgba(0,0,0,1)] translate-y-[84px]"
         >
           <div className="flex items-center gap-1 ">

@@ -67,7 +67,7 @@ export function MultitaskBar() {
   const barWidth = activeWidth > 0 ? activeWidth + PADDING_X : undefined;
 
   return (
-    <div className="fixed bottom-[128px] left-1/2 -translate-x-1/2 z-40">
+    <div className="fixed bottom-[94px] left-1/2 -translate-x-1/2 z-40">
       <div
         className="
           inline-flex items-center justify-center p-1 rounded-full relative

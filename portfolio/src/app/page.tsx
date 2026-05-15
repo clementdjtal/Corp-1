@@ -1,4 +1,4 @@
-import { Header, MultitaskBar } from "@/components";
+import { Header, MultitaskBar, ProgressiveBlur } from "@/components";
 
 const SECTIONS = [
   {
@@ -31,15 +31,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main
-        className="fixed inset-0 overflow-y-auto"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, transparent 0px, black 200px, black calc(100% - 240px), transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0px, black 200px, black calc(100% - 240px), transparent 100%)",
-        }}
-      >
+      <main className="fixed inset-0 overflow-y-auto">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-[160px] pb-[200px] flex flex-col gap-12">
           {SECTIONS.map((section) => (
             <section key={section.title} className="flex flex-col gap-3">
@@ -53,6 +45,27 @@ export default function Home() {
           ))}
         </div>
       </main>
+      <ProgressiveBlur position="top" height={160} />
+      <ProgressiveBlur position="bottom" height={200} />
+
+      {/* Background fade layers — same color as page bg, fade from solid at edges to transparent */}
+      <div
+        className="pointer-events-none fixed top-0 left-0 right-0 z-30"
+        style={{
+          height: 160,
+          background:
+            "linear-gradient(to bottom, var(--background) 0%, var(--background) 30%, transparent 100%)",
+        }}
+      />
+      <div
+        className="pointer-events-none fixed bottom-0 left-0 right-0 z-30"
+        style={{
+          height: 200,
+          background:
+            "linear-gradient(to top, var(--background) 0%, var(--background) 30%, transparent 100%)",
+        }}
+      />
+
       <MultitaskBar />
     </>
   );
