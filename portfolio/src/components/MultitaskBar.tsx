@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActionPill } from "./ActionPill";
 
 const EMAIL = "clementfradet@gmail.com";
@@ -30,6 +30,23 @@ const GAP = 4;
 export function MultitaskBar() {
   const [mode, setMode] = useState<"idle" | "contact">("idle");
   const [copied, setCopied] = useState(false);
+  const [idleWidth, setIdleWidth] = useState(0);
+  const [contactWidth, setContactWidth] = useState(0);
+  const idleRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const w = entry.contentRect.width;
+        if (entry.target === idleRef.current) setIdleWidth(w);
+        if (entry.target === contactRef.current) setContactWidth(w);
+      }
+    });
+    if (idleRef.current) ro.observe(idleRef.current);
+    if (contactRef.current) ro.observe(contactRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,6 +60,11 @@ export function MultitaskBar() {
   };
 
   const isContact = mode === "contact";
+
+  // bar inner width = active layer width + horizontal padding (p-1 = 4px each side)
+  const PADDING_X = 8;
+  const activeWidth = isContact ? contactWidth : idleWidth;
+  const barWidth = activeWidth > 0 ? activeWidth + PADDING_X : undefined;
 
   return (
     <div className="fixed bottom-[128px] left-1/2 -translate-x-1/2 z-40">
@@ -58,22 +80,22 @@ export function MultitaskBar() {
         "
         style={{
           height: 36,
-          gap: isContact ? 0 : GAP,
+          width: barWidth,
         }}
       >
         {/* IDLE layer: 2 ActionPills */}
         <div
-          className="flex items-center"
+          ref={idleRef}
+          className="absolute top-1/2 left-1/2 flex items-center"
           style={{
             gap: GAP,
+            transform: `translate(-50%, -50%) scale(${isContact ? 0.85 : 1})`,
             opacity: isContact ? 0 : 1,
-            transform: isContact ? "scale(0.85)" : "scale(1)",
             filter: isContact ? "blur(4px)" : "blur(0px)",
             transition: isContact
               ? `opacity 200ms ${easing}, transform 280ms ${easing}, filter 220ms ${easing}`
               : `opacity 280ms ${easing} 100ms, transform 280ms ${easing} 100ms, filter 280ms ${easing} 100ms`,
             pointerEvents: isContact ? "none" : "auto",
-            position: isContact ? "absolute" : "static",
           }}
         >
           <ActionPill
@@ -92,17 +114,17 @@ export function MultitaskBar() {
 
         {/* CONTACT layer: back button + email pill + send button */}
         <div
-          className="flex items-center"
+          ref={contactRef}
+          className="absolute top-1/2 left-1/2 flex items-center"
           style={{
             gap: GAP,
+            transform: `translate(-50%, -50%) scale(${isContact ? 1 : 0.85})`,
             opacity: isContact ? 1 : 0,
-            transform: isContact ? "scale(1)" : "scale(0.85)",
             filter: isContact ? "blur(0px)" : "blur(4px)",
             transition: isContact
               ? `opacity 280ms ${easing} 100ms, transform 280ms ${easing} 100ms, filter 280ms ${easing} 100ms`
               : `opacity 200ms ${easing}, transform 280ms ${easing}, filter 220ms ${easing}`,
             pointerEvents: isContact ? "auto" : "none",
-            position: isContact ? "static" : "absolute",
           }}
         >
           {/* Back button */}
