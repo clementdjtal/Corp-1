@@ -8,6 +8,8 @@ export { ProgressiveBlur } from "./ProgressiveBlur";
 export { CodeLine } from "./CodeLine";
 export type { LineStatus } from "./CodeLine";
 export { CodeBlock } from "./CodeBlock";
+export { CodeSections } from "./CodeSections";
+export type { CodeSection } from "./CodeSections";
 export { IconButton } from "./IconButton";
 export { SpinnerLoader } from "./SpinnerLoader";
 export { CustomTooltip } from "./CustomTooltip";
