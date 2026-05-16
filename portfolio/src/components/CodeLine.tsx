@@ -17,10 +17,17 @@ type CodeLineProps = {
 
 const LINE_HEIGHT = 28;
 
-const STATUS_COLORS: Record<LineStatus, string> = {
-  default: "bg-neutrallight-300 dark:bg-borderdark-900",
+const STATUS_BAR_COLORS: Record<LineStatus, string> = {
+  default: "bg-neutrallight-400 dark:bg-neutraldark-400",
   modified: "bg-primarylight-900 dark:bg-primarydark-900",
   deleted: "bg-destructive-900",
+};
+
+// Semi-transparent gutter background, only when not default
+const STATUS_GUTTER_BG: Record<LineStatus, string> = {
+  default: "",
+  modified: "bg-primarylight-900/15 dark:bg-primarydark-900/15",
+  deleted: "bg-destructive-900/15",
 };
 
 const TEXT_COLORS: Record<LineStatus, string> = {
@@ -172,18 +179,16 @@ export function CodeLine({
       onMouseLeave={() => setHover(false)}
       className="group flex items-stretch gap-3 -mx-3 px-3 rounded-md transition-colors duration-150 hover:bg-neutrallight-200/50 dark:hover:bg-buttondark-900/30"
     >
-      {/* Gutter: one row per visual line (status bar + line number) */}
+      {/* Gutter: numbers (with semi-transparent bg) + status bar */}
       <div className="flex shrink-0 select-none">
-        {/* Status bar — single continuous bar across all visual lines */}
-        <span
-          className={`w-0.5 transition-colors duration-200 ${STATUS_COLORS[status]}`}
-        />
-        {/* Line numbers — one per visual line */}
-        <div className="flex flex-col ml-2">
+        {/* Line numbers column — bg matches status color (semi-transparent) */}
+        <div
+          className={`flex flex-col pr-2 transition-colors duration-200 ${STATUS_GUTTER_BG[status]}`}
+        >
           {Array.from({ length: visualLines }).map((_, i) => (
             <span
               key={i}
-              className="text-[11px] tabular-nums font-jetbrains text-neutrallight-500 dark:text-neutraldark-500 w-6 text-right flex items-center justify-end"
+              className="text-[11px] tabular-nums font-jetbrains text-neutrallight-500 dark:text-neutraldark-500 w-8 text-right flex items-center justify-end"
               style={{
                 fontFamily: "var(--font-jetbrains-mono)",
                 height: LINE_HEIGHT,
@@ -193,6 +198,12 @@ export function CodeLine({
             </span>
           ))}
         </div>
+        {/* Status bar — hatched when default, solid otherwise */}
+        <span
+          className={`w-[3px] transition-colors duration-200 ${
+            status === "default" ? "status-bar-hatched" : STATUS_BAR_COLORS[status]
+          }`}
+        />
       </div>
 
       {/* Line text — wraps naturally */}
