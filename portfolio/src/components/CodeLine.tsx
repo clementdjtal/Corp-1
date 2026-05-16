@@ -32,7 +32,7 @@ const STATUS_GUTTER_BG: Record<LineStatus, string> = {
 
 const TEXT_COLORS: Record<LineStatus, string> = {
   default: "text-neutrallight-700 dark:text-neutraldark-600",
-  modified: "text-neutrallight-900 dark:text-neutraldark-900",
+  modified: "text-primarylight-900 dark:text-primarydark-900",
   deleted: "text-destructive-900 line-through opacity-60",
 };
 
@@ -179,11 +179,11 @@ export function CodeLine({
       onMouseLeave={() => setHover(false)}
       className="group flex items-stretch gap-3 -mx-3 px-3 rounded-md transition-colors duration-150 hover:bg-neutrallight-200/50 dark:hover:bg-buttondark-900/30"
     >
-      {/* Gutter: numbers (with semi-transparent bg) + status bar */}
+      {/* Gutter: numbers (with status bg) + status bar */}
       <div className="flex shrink-0 select-none">
-        {/* Line numbers column — bg matches status color (semi-transparent) */}
+        {/* Line numbers column — bg matches status color, extends to left edge with rounded corners */}
         <div
-          className={`flex flex-col pr-2 transition-colors duration-200 ${STATUS_GUTTER_BG[status]}`}
+          className={`flex flex-col pl-3 pr-2 -ml-3 rounded-l-md transition-colors duration-200 ${STATUS_GUTTER_BG[status]}`}
         >
           {Array.from({ length: visualLines }).map((_, i) => (
             <span
@@ -209,7 +209,7 @@ export function CodeLine({
       {/* Line text — wraps naturally */}
       <p
         ref={textRef}
-        className={`flex-1 min-w-0 text-[14px] tracking-[-0.2px] font-medium transition-colors duration-200 ${TEXT_COLORS[status]}`}
+        className={`relative flex-1 min-w-0 text-[14px] tracking-[-0.2px] font-medium transition-colors duration-200 ${TEXT_COLORS[status]}`}
         style={{ lineHeight: `${LINE_HEIGHT}px` }}
       >
         {text}
