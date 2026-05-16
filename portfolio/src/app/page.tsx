@@ -1,4 +1,11 @@
-import { Header, MultitaskBar, ProgressiveBlur } from "@/components";
+import { CodeBlock, Header, MultitaskBar, ProgressiveBlur } from "@/components";
+
+// Split each body into sentence-sized "lines"
+const splitLines = (body: string): string[] =>
+  body
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
 
 const SECTIONS = [
   {
@@ -32,17 +39,27 @@ export default function Home() {
     <>
       <Header />
       <main className="fixed inset-0 overflow-y-auto">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-[160px] pb-[200px] flex flex-col gap-12">
-          {SECTIONS.map((section) => (
-            <section key={section.title} className="flex flex-col gap-3">
-              <h2 className="text-[20px] font-semibold tracking-[-0.3px] text-neutrallight-900 dark:text-neutraldark-900">
-                {section.title}
-              </h2>
-              <p className="text-[15px] leading-[1.65] tracking-[-0.1px] text-neutrallight-700 dark:text-neutraldark-600">
-                {section.body}
-              </p>
-            </section>
-          ))}
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-[160px] pb-[200px] flex flex-col gap-10">
+          {(() => {
+            let lineCounter = 1;
+            return SECTIONS.map((section) => {
+              const lines = splitLines(section.body);
+              const startLineNumber = lineCounter;
+              // Approximate increment for SSR; will be refined client-side per CodeBlock
+              lineCounter += lines.length;
+              return (
+                <section key={section.title} className="flex flex-col gap-2">
+                  <h2 className="text-[20px] font-medium tracking-[-0.3px] text-neutrallight-900 dark:text-neutraldark-900 mb-2">
+                    {section.title}
+                  </h2>
+                  <CodeBlock
+                    lines={lines}
+                    startLineNumber={startLineNumber}
+                  />
+                </section>
+              );
+            });
+          })()}
         </div>
       </main>
       <ProgressiveBlur position="top" height={160} />

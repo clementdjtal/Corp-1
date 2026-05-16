@@ -6,16 +6,12 @@ type ProgressiveBlurProps = {
 
 // Each layer: a blur strength + a [solidUntil%, fadeOutBy%] mask.
 // Heaviest blur is at the edge (top for "top", bottom for "bottom").
-// Masks heavily overlap so transitions between layers blend smoothly.
+// Fewer layers + page bg fade overlay = smooth result with better perf.
 const LAYERS = [
-  { blur: 0.5, mask: [60, 100] },
-  { blur: 1, mask: [50, 90] },
-  { blur: 2, mask: [40, 80] },
-  { blur: 4, mask: [30, 70] },
-  { blur: 8, mask: [20, 60] },
-  { blur: 16, mask: [12, 48] },
-  { blur: 32, mask: [6, 32] },
-  { blur: 64, mask: [0, 18] },
+  { blur: 1, mask: [50, 100] },
+  { blur: 4, mask: [30, 75] },
+  { blur: 12, mask: [15, 50] },
+  { blur: 32, mask: [0, 25] },
 ];
 
 export function ProgressiveBlur({

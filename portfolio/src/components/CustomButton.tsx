@@ -58,6 +58,8 @@ type CustomButtonProps = {
   roundedBottomRight?: boolean;
   disableHoverBg?: boolean;
   noIconFilter?: boolean;
+  leftIconNode?: ReactNode;
+  rightIconNode?: ReactNode;
   onClick?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
   onMouseEnter?: ButtonHTMLAttributes<HTMLButtonElement>["onMouseEnter"];
   onMouseLeave?: ButtonHTMLAttributes<HTMLButtonElement>["onMouseLeave"];
@@ -109,6 +111,8 @@ export function CustomButton({
   roundedBottomRight = true,
   disableHoverBg = false,
   noIconFilter = false,
+  leftIconNode,
+  rightIconNode,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -399,7 +403,7 @@ export function CustomButton({
           </div>
         )}
 
-        {leftIcon && (
+        {(leftIcon || leftIconNode) && (
           <div
             className={cn(
               "mr-1.5 relative flex items-center justify-center",
@@ -416,6 +420,8 @@ export function CustomButton({
                 customSize={iconSizePixels}
                 colorScheme={spinnerColorScheme}
               />
+            ) : leftIconNode ? (
+              leftIconNode
             ) : isCustomLeftIcon ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
