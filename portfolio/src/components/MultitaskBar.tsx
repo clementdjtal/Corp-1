@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ActionPill } from "./ActionPill";
+import { useView } from "./ViewContext";
 
 const EMAIL = "clementfradet@gmail.com";
 
@@ -28,6 +29,8 @@ const ICON_BTN_WIDTH = 28;
 const GAP = 4;
 
 export function MultitaskBar() {
+  const { view, setView } = useView();
+  const isCV = view === "cv";
   const [mode, setMode] = useState<"idle" | "contact">("idle");
   const [copied, setCopied] = useState(false);
   const [idleWidth, setIdleWidth] = useState(0);
@@ -101,8 +104,12 @@ export function MultitaskBar() {
           <ActionPill
             icon="cv"
             label="Lire CV"
-            labelWidth={50}
-            onClick={() => {}}
+            labelWidth={isCV ? 0 : 50}
+            iconNode={isCV ? <ArrowLeftIcon /> : undefined}
+            onClick={() => {
+              if (isCV) setView("normal");
+              else setView("cv");
+            }}
           />
           <ActionPill
             icon="contact"

@@ -8,6 +8,9 @@ import { DropdownContainer } from "./DropdownContainer";
 import { CustomButton } from "./CustomButton";
 import { HoverList } from "./HoverList";
 import { CustomBadge } from "./CustomBadge";
+import { useView } from "./ViewContext";
+
+const easing = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const CheckIcon = () => (
   <svg
@@ -26,6 +29,8 @@ const CheckIcon = () => (
 
 export function Header() {
   const { theme, setTheme } = useTheme();
+  const { view } = useView();
+  const isCV = view === "cv";
 
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -59,30 +64,88 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50  ">
-      <nav className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="px-4 sm:px-6 lg:px-8">
         <div
-          className="flex items-center justify-between  py-1 pl-1 pr-2 rounded-full dark:bg-containerdark-900 bg-neutrallight-100 border-[0.5px] border-neutrallight-300 dark:border-borderdark-900 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)]
-          dark:shadow-[0_8px_18px_-2px_rgba(0,0,0,1)] translate-y-[84px]"
+          className="flex items-center justify-between py-1 pl-1 pr-2 rounded-full dark:bg-containerdark-900 bg-neutrallight-100 border-[0.5px] border-neutrallight-300 dark:border-borderdark-900 shadow-[0_4px_6px_-2px_rgba(0,0,0,0.05)] dark:shadow-[0_8px_18px_-2px_rgba(0,0,0,1)] translate-y-[84px] overflow-hidden mx-auto"
+          style={{
+            width: isCV ? 20 : 608,
+            opacity: isCV ? 0 : 1,
+            filter: isCV ? "blur(6px)" : "blur(0px)",
+            transition: isCV
+              ? `width 400ms ${easing} 300ms, opacity 250ms ${easing} 450ms, filter 250ms ${easing} 450ms`
+              : `width 400ms ${easing} 300ms, opacity 250ms ${easing} 250ms, filter 250ms ${easing} 250ms`,
+            pointerEvents: isCV ? "none" : "auto",
+          }}
         >
-          <div className="flex items-center gap-1 ">
-            <img src={`/CorpIcon/fav.png`} className=" w-7 h-7 mr-2" />
-            <CustomBadge
-              text="Working"
-              colorScheme="neutral"
-              variant="flat"
-              rounded="full"
-              size="lg"
-            />
-            <CustomBadge
-              text="En recherche"
-              colorScheme="success"
-              variant="flat"
-              rounded="full"
-              size="lg"
-            />
+          <div className="flex items-center gap-1">
+            {/* Logo fav — leaves last (with theme button) */}
+            <div
+              style={{
+                opacity: isCV ? 0 : 1,
+                transform: isCV ? "scale(0)" : "scale(1)",
+                filter: isCV ? "blur(1px)" : "blur(0px)",
+                transition: isCV
+                  ? `opacity 200ms ${easing} 140ms, transform 280ms ${easing} 80ms, filter 220ms ${easing} 80ms`
+                  : `opacity 200ms ${easing} 460ms, transform 280ms ${easing} 460ms, filter 280ms ${easing} 460ms`,
+              }}
+            >
+              <img src={`/CorpIcon/fav.png`} className=" w-7 h-7 mr-2" />
+            </div>
+
+            {/* Badge "Working" — leaves second (translates left to slide into En recherche's spot) */}
+            <div
+              style={{
+                opacity: isCV ? 0 : 1,
+                transform: isCV ? "translateX(40px)" : "translateX(0)",
+                filter: isCV ? "blur(1px)" : "blur(0px)",
+                transition: isCV
+                  ? `opacity 250ms ${easing} 100ms, transform 320ms ${easing} 40ms, filter 250ms ${easing} 40ms`
+                  : `opacity 250ms ${easing} 500ms, transform 320ms ${easing} 500ms, filter 250ms ${easing} 500ms`,
+              }}
+            >
+              <CustomBadge
+                text="Working"
+                colorScheme="neutral"
+                variant="flat"
+                rounded="full"
+                size="lg"
+              />
+            </div>
+
+            {/* Badge "En recherche" — leaves first (translates right, off-screen) */}
+            <div
+              style={{
+                opacity: isCV ? 0 : 1,
+                transform: isCV ? "translateX(40px)" : "translateX(0)",
+                filter: isCV ? "blur(1px)" : "blur(0px)",
+                transition: isCV
+                  ? `opacity 250ms ${easing} 60ms, transform 320ms ${easing}, filter 250ms ${easing}`
+                  : `opacity 250ms ${easing} 540ms, transform 320ms ${easing} 540ms, filter 250ms ${easing} 540ms`,
+              }}
+            >
+              <CustomBadge
+                text="En recherche"
+                colorScheme="success"
+                variant="flat"
+                rounded="full"
+                size="lg"
+              />
+            </div>
           </div>
 
-          <div ref={wrapperRef} className="relative inline-flex">
+          {/* Theme button — leaves last together with logo */}
+          <div
+            ref={wrapperRef}
+            className="relative inline-flex"
+            style={{
+              opacity: isCV ? 0 : 1,
+              transform: isCV ? "scale(0)" : "scale(1)",
+              filter: isCV ? "blur(1px)" : "blur(0px)",
+              transition: isCV
+                ? `opacity 200ms ${easing} 140ms, transform 280ms ${easing} 80ms, filter 220ms ${easing} 80ms`
+                : `opacity 200ms ${easing} 460ms, transform 280ms ${easing} 460ms, filter 280ms ${easing} 460ms`,
+            }}
+          >
             <div className="relative inline-flex">
               <IconButton
                 icon=""

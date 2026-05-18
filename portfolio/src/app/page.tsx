@@ -1,8 +1,11 @@
 import {
   CodeSections,
+  CVView,
   Header,
+  MainContent,
   MultitaskBar,
   ProgressiveBlur,
+  ViewProvider,
 } from "@/components";
 
 // Split each body into sentence-sized "lines"
@@ -41,9 +44,9 @@ const SECTIONS = [
 
 export default function Home() {
   return (
-    <>
+    <ViewProvider>
       <Header />
-      <main className="fixed inset-0 overflow-y-auto">
+      <MainContent>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-[160px] pb-[200px] flex flex-col gap-10">
           <CodeSections
             sections={SECTIONS.map((s) => ({
@@ -52,7 +55,8 @@ export default function Home() {
             }))}
           />
         </div>
-      </main>
+      </MainContent>
+      <CVView />
       <ProgressiveBlur position="top" height={160} />
       <ProgressiveBlur position="bottom" height={200} />
 
@@ -75,6 +79,6 @@ export default function Home() {
       />
 
       <MultitaskBar />
-    </>
+    </ViewProvider>
   );
 }

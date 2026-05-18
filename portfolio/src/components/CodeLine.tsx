@@ -23,11 +23,18 @@ const STATUS_BAR_COLORS: Record<LineStatus, string> = {
   deleted: "bg-destructive-900",
 };
 
-// Semi-transparent gutter background, only when not default
+// Gutter background — semi-transparent solid color when not default
 const STATUS_GUTTER_BG: Record<LineStatus, string> = {
   default: "",
   modified: "bg-primarylight-900/15 dark:bg-primarydark-900/15",
   deleted: "bg-destructive-900/15",
+};
+
+// Text-side background — hatched pattern in the status color when not default
+const STATUS_TEXT_BG: Record<LineStatus, string> = {
+  default: "",
+  modified: "gutter-bg-modified",
+  deleted: "gutter-bg-deleted",
 };
 
 const TEXT_COLORS: Record<LineStatus, string> = {
@@ -177,13 +184,15 @@ export function CodeLine({
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group flex items-stretch gap-3 -mx-3 px-3 rounded-md transition-colors duration-150 hover:bg-neutrallight-200/50 dark:hover:bg-buttondark-900/30"
+      className={`group relative flex items-stretch gap-3 -mx-3 px-3 rounded-xl transition-[margin,background-color] duration-200 hover:bg-neutrallight-200/50 dark:hover:bg-buttondark-900/30 ${
+        status !== "default" ? "my-2" : ""
+      }`}
     >
       {/* Gutter: numbers (with status bg) + status bar */}
       <div className="flex shrink-0 select-none">
         {/* Line numbers column — bg matches status color, extends to left edge with rounded corners */}
         <div
-          className={`flex flex-col pl-3 pr-2 -ml-3 rounded-l-md transition-colors duration-200 ${STATUS_GUTTER_BG[status]}`}
+          className={`flex flex-col pl-3 pr-2 -ml-3 rounded-l-xl transition-colors duration-200 ${STATUS_GUTTER_BG[status]}`}
         >
           {Array.from({ length: visualLines }).map((_, i) => (
             <span
@@ -206,19 +215,20 @@ export function CodeLine({
         />
       </div>
 
-      {/* Line text — wraps naturally */}
+      {/* Line text — wraps naturally, with hatched bg when not default.
+          bg extends from the status bar to the parent's right edge. */}
       <p
         ref={textRef}
-        className={`relative flex-1 min-w-0 text-[14px] tracking-[-0.2px] font-medium transition-colors duration-200 ${TEXT_COLORS[status]}`}
+        className={`relative flex-1 min-w-0 text-[14px] tracking-[-0.2px] font-medium pl-3 pr-10 -ml-3 -mr-3 rounded-r-xl transition-colors duration-200 ${TEXT_COLORS[status]} ${STATUS_TEXT_BG[status]}`}
         style={{ lineHeight: `${LINE_HEIGHT}px` }}
       >
         {text}
       </p>
 
-      {/* Action button — visible on hover or when dropdown open */}
+      {/* Action button — absolute on the right so it doesn't push the bg */}
       <div
         ref={wrapperRef}
-        className="relative shrink-0 self-center"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-10"
         style={{
           opacity: showButton ? 1 : 0,
           transition: "opacity 150ms ease-out",

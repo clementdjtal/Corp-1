@@ -226,6 +226,26 @@ body {
   );
 }
 
+.gutter-bg-modified {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(49, 101, 255, 0.12) 0,
+    rgba(49, 101, 255, 0.12) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
+.gutter-bg-deleted {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.12) 0,
+    rgba(239, 68, 68, 0.12) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
 .theme-morph-icon {
   opacity: 0;
   transform: scale(0.4);
